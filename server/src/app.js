@@ -26,6 +26,15 @@ app.use((req, res, next) => {
   next();
 });
 
+// ข้อความที่ path / — บอกว่านี่คือ API server (frontend อยู่ที่อื่น)
+app.get('/', (_req, res) => {
+  res.json({
+    ok: true,
+    name: 'FastNumeric API',
+    endpoints: ['/api/methods', '/api/calculate', '/api/history', '/api/stats', '/api/health'],
+  });
+});
+
 app.use('/api', router);
 
 // Health check สำหรับ Docker
