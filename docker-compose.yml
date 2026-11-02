@@ -1,0 +1,36 @@
+services:
+  backend:
+    build: ./server
+    container_name: fastnumeric-backend
+    restart: unless-stopped
+    environment:
+      - PORT=4000
+      - DB_PATH=/data/fastnumeric.sqlite
+      # กำหนด origin ที่อนุญาต CORS (ค่าเริ่มต้น * คืออนุญาตทั้งหมด — เหมาะกับ dev/student project)
+      - CORS_ORIGIN=${CORS_ORIGIN:-*}
+    volumes:
+      # Named volume เก็บ SQLite ถาวร — ข้อมูลอยู่แม้ลบ/สร้าง container ใหม่
+      - fastnumeric-data:/data
+    ports:
+      # เปิด port 4000 ให้เรียก API จาก host โดยตรงได้ (dev/debug)
+      - "4000:4000"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:4000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  frontend:
+    build: ./client
+    container_name: fastnumeric-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${FRONTEND_PORT:-8080}:80"
+
+volumes:
+  fastnumeric-data:
+    name: fastnumeric-data

@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Segoe UI', 'Leelawadee UI', 'Tahoma', 'Sarabun', sans-serif;
+  @apply bg-slate-100 text-slate-900;
+}
+
+/* ตารางผลลัพธ์ / iteration */
+.table-num {
+  @apply w-full text-sm border-collapse;
+}
+.table-num th {
+  @apply border border-slate-300 bg-slate-200 px-2 py-1.5 text-left font-semibold whitespace-nowrap;
+}
+.table-num td {
+  @apply border border-slate-300 px-2 py-1.5 whitespace-nowrap;
+}
+.table-num tbody tr:nth-child(even) {
+  @apply bg-slate-50;
+}
+
+/* บล็อกแสดงขั้นตอน */
+.step-box {
+  @apply rounded-lg border border-slate-300 bg-white p-4 shadow-sm;
+}
+.mono {
+  @apply font-mono text-sm whitespace-pre-wrap break-words;
+}

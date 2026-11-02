@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>รายงานโครงงาน FastNumeric</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a2332;
+    --accent: #0b5c8f;
+    --accent-light: #e8f1f8;
+    --line: #c9d6e0;
+    --muted: #5a6b7c;
+    --code-bg: #f4f7fa;
+  }
+  body {
+    font-family: 'Sarabun', 'Leelawadee UI', sans-serif;
+    color: var(--ink);
+    background: #fff;
+    font-size: 15pt;
+    line-height: 1.75;
+  }
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 25mm 22mm;
+    margin: 0 auto;
+    position: relative;
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: auto; }
+
+  /* ---------- cover ---------- */
+  .cover { display: flex; flex-direction: column; text-align: center; }
+  .cover .spacer-top { height: 30mm; }
+  .cover h1 { font-size: 26pt; font-weight: 700; line-height: 1.5; }
+  .cover h2 { font-size: 20pt; font-weight: 600; margin-top: 4mm; }
+  .cover .project-name {
+    font-size: 30pt; font-weight: 700; color: var(--accent);
+    margin: 18mm 0 6mm; letter-spacing: 1px;
+  }
+  .cover .subtitle { font-size: 16pt; color: var(--muted); }
+  .cover .by {
+    margin-top: 28mm; font-size: 15.5pt; line-height: 2.1;
+  }
+  .cover .by b { font-weight: 600; }
+  .cover .footer { margin-top: auto; padding-bottom: 8mm; font-size: 15pt; line-height: 2; }
+
+  /* ---------- headings ---------- */
+  .chapter {
+    font-size: 19pt; font-weight: 700; text-align: center;
+    color: var(--accent); margin-bottom: 9mm;
+    border-bottom: 2.5px solid var(--accent); padding-bottom: 3mm;
+  }
+  h3.sec {
+    font-size: 16pt; font-weight: 700; margin: 8mm 0 3mm;
+    border-left: 5px solid var(--accent); padding-left: 4mm;
+  }
+  h4.sub { font-size: 15pt; font-weight: 600; margin: 5mm 0 2mm; }
+  p { text-align: justify; margin-bottom: 3mm; }
+  ul, ol { margin: 0 0 3mm 10mm; }
+  li { margin-bottom: 1.5mm; }
+  .indent { text-indent: 12mm; }
+
+  /* ---------- tables ---------- */
+  table.data {
+    width: 100%; border-collapse: collapse; font-size: 12.5pt; margin: 3mm 0 5mm;
+  }
+  table.data th {
+    background: var(--accent-light); border: 1px solid var(--line);
+    padding: 2mm 3mm; font-weight: 600; text-align: center;
+  }
+  table.data td { border: 1px solid var(--line); padding: 1.8mm 3mm; vertical-align: top; }
+  table.data td.c { text-align: center; }
+
+  /* ---------- code ---------- */
+  .code {
+    font-family: 'Consolas', 'Cascadia Mono', monospace;
+    font-size: 10.5pt; line-height: 1.55;
+    background: var(--code-bg); border: 1px solid var(--line);
+    border-radius: 4px; padding: 3.5mm 4.5mm;
+    white-space: pre; overflow-x: hidden; margin: 2mm 0 4mm;
+    page-break-inside: avoid;
+  }
+  .code .kw { color: #a626a4; font-weight: 600; }
+  .code .cm { color: #7a8b99; font-style: italic; }
+  .code .st { color: #1f7a3d; }
+  .code .fn { color: #0b5c8f; }
+  .codecap {
+    font-size: 12pt; color: var(--muted); text-align: center; margin: 0 0 5mm;
+  }
+
+  /* ---------- figures ---------- */
+  figure { margin: 4mm 0 6mm; page-break-inside: avoid; text-align: center; }
+  figure img {
+    max-width: 100%; border: 1px solid var(--line); border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(20,40,60,.12);
+  }
+  figure img.narrow { max-width: 82%; }
+  figcaption { font-size: 12.5pt; color: var(--muted); margin-top: 2mm; }
+  figcaption b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- class diagram ---------- */
+  .diagram { text-align: center; margin: 3mm 0 2mm; page-break-inside: avoid; }
+
+  /* gantt */
+  table.gantt { width: 100%; border-collapse: collapse; font-size: 11.5pt; margin: 3mm 0 4mm; }
+  table.gantt th, table.gantt td { border: 1px solid var(--line); padding: 1.6mm 2mm; text-align: center; }
+  table.gantt th { background: var(--accent-light); font-weight: 600; }
+  table.gantt td.task { text-align: left; white-space: nowrap; font-size: 11pt; }
+  table.gantt td.on { background: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- ================= ปก ================= -->
+<div class="page cover">
+  <div class="spacer-top"></div>
+  <h1>รายงานโครงงาน</h1>
+  <h2>เรื่อง การพัฒนาเว็บแอปพลิเคชันคำนวณทางคณิตศาสตร์<br>ด้วยการเขียนโปรแกรมเชิงวัตถุ</h2>
+  <div class="project-name">FastNumeric</div>
+  <div class="subtitle">Numerical Method Calculator<br>(โปรแกรมคำนวณวิธีเชิงตัวเลขพร้อมแสดงขั้นตอนการคำนวณ)</div>
+
+  <div class="by">
+    <b>จัดทำโดย</b><br>
+    ........................................................................ รหัสนักศึกษา ........................................<br>
+    ........................................................................ รหัสนักศึกษา ........................................
+  </div>
+
+  <div class="footer">
+    เสนอ<br>
+    สาขาวิชา ............................................................ คณะ ............................................................<br>
+    รายวิชา .......................................................... ภาคเรียนที่ .......... ปีการศึกษา ..........<br>
+    มหาวิทยาลัย............................................................
+  </div>
+</div>
+
+<!-- ================= บทที่ 1 ================= -->
+<div class="page">
+  <div class="chapter">บทที่ 1<br>ที่มาและความสำคัญ</div>
+
+  <h3 class="sec">1.1 ที่มาและความสำคัญ</h3>
+  <p class="indent">ในการเรียนวิชาวิธีเชิงตัวเลข (Numerical Methods) ผู้เรียนต้องคำนวณคำตอบของปัญหาทางคณิตศาสตร์หลายประเภท เช่น การหารากของสมการ การแก้ระบบสมการเชิงเส้น การแทรกและการคาดคะเนค่า ตลอดจนการหาพื้นที่ใต้เส้นโค้งและอนุพันธ์เชิงตัวเลข ซึ่งแต่ละวิธีต้องทำการคำนวณซ้ำ ๆ จำนวนมาก ถ้าทำด้วยมือจะเสียเวลามากและเกิดข้อผิดพลาดได้ง่าย นอกจากนี้ผู้เรียนยังควรเข้าใจ "ขั้นตอนการคำนวณ" ของแต่ละวิธี ไม่ใช่แค่คำตอบสุดท้ายเท่านั้น</p>
+  <p class="indent">ผู้จัดทำจึงพัฒนาโครงงาน <b>FastNumeric</b> เป็นเว็บแอปพลิเคชันสำหรับคำนวณวิธีเชิงตัวเลข จำนวน 6 หมวด 11 วิธี โดยโปรแกรมไม่เพียงแสดงคำตอบสุดท้าย แต่แสดง "ขั้นตอนการคำนวณ" และ "ตารางการทำซ้ำ (Iteration Table)" ครบทุกขั้นตอน ผู้ใช้สามารถตรวจสอบการคำนวณย้อนกลับได้ทีละรอบ เหมาะกับการใช้ตรวจคำตอบและทบทวนวิธีทำของผู้เรียน</p>
+  <p class="indent">ด้านการพัฒนา โปรแกรมถูกออกแบบด้วยหลัก<b>การเขียนโปรแกรมเชิงวัตถุ (Object-Oriented Programming: OOP)</b> อย่างเต็มรูปแบบ ทั้งการซ่อนรายละเอียด (Encapsulation) การสืบทอดคุณสมบัติ (Inheritance) ความเป็นนามธรรม (Abstraction) รูปแบบพฤติกรรมหลากหลาย (Polymorphism) และการประกอบวัตถุ (Composition) เพื่อให้ระบบแยกชั้นความรับผิดชอบชัดเจน เพิ่มวิธีคำนวณใหม่ได้โดยไม่ต้องแก้โค้ดเดิม</p>
+
+  <h3 class="sec">1.2 ประเภทของโครงการ</h3>
+  <p class="indent">โครงการนี้เป็นโครงการประเภท<b>พัฒนาซอฟต์แวร์ประยุกต์ (Application Development)</b> เป็นเว็บแอปพลิเคชันที่ทำงานบนเว็บเบราว์เซอร์ ประกอบด้วยส่วนติดต่อผู้ใช้ (Frontend), ส่วนประมวลผลและเก็บข้อมูล (Backend + Database) และสามารถติดตั้งทำงานบนเซิร์ฟเวอร์ได้ด้วยเทคโนโลยีคอนเทนเนอร์ (Docker)</p>
+
+  <h3 class="sec">1.3 ประโยชน์ของโครงการ</h3>
+  <ol>
+    <li>คำนวณวิธีเชิงตัวเลขได้ถูกต้อง รวดเร็ว ครอบคลุม 6 หมวด 11 วิธีที่ใช้เรียนในรายวิชาวิธีเชิงตัวเลข</li>
+    <li>แสดงขั้นตอนการคำนวณและตารางการทำซ้ำทุกวิธี ช่วยให้ผู้เรียนเข้าใจกลไกของอัลกอริทึม ไม่ใช่แค่คำตอบ</li>
+    <li>ตรวจคำตอบการบ้านหรือการคำนวณด้วยมือได้รวดเร็ว ลดข้อผิดพลาดจากการคำนวณซ้ำ ๆ</li>
+    <li>บันทึกประวัติการคำนวณลงฐานข้อมูล นับจำนวนครั้งที่คำนวณโจทย์เดิม และสรุปสถิติให้เห็นภาพรวม</li>
+    <li>เป็นตัวอย่างการนำหลัก OOP ไปใช้กับโจทย์จริงด้านคณิตศาสตร์ เช่นการแยกชั้นอัลกอริทึมออกจากการแสดงผล</li>
+  </ol>
+</div>
+
+<!-- ================= บทที่ 1 (ต่อ) ขอบเขต + ตารางเวลา ================= -->
+<div class="page">
+  <div class="chapter">บทที่ 1 (ต่อ)<br>ขอบเขตของโครงการ</div>
+
+  <h3 class="sec">1.4 ขอบเขตของโครงการ</h3>
+  <h4 class="sub">1.4.1 คุณสมบัติทางฟังก์ชัน (Functional Requirements)</h4>
+  <table class="data">
+    <tr><th style="width:12%">หมวด</th><th style="width:34%">วิธีคำนวณ</th><th>คุณสมบัติที่พัฒนา</th></tr>
+    <tr><td class="c">Root of Equation</td><td>Bisection, Newton-Raphson</td><td>หารากของสมการ f(x) = 0 แสดงตารางการทำซ้ำ ตรวจเงื่อนไข f(XL)·f(XU) &lt; 0 และเงื่อนไขความลู่เข้า</td></tr>
+    <tr><td class="c">Linear Algebra</td><td>Gauss Elimination</td><td>แก้ระบบสมการเชิงเส้น n ตัวแปร (n = 2–6) ด้วยการตัดตัวแปรแบบ Partial Pivoting ตรวจเมทริกซ์เอกฐน</td></tr>
+    <tr><td class="c">Interpolation</td><td>Linear, Lagrange</td><td>หาค่าระหว่างจุดจากตาราง (x, y) ตรวจว่า x อยู่ในช่วงข้อมูลหรือไม่</td></tr>
+    <tr><td class="c">Extrapolation</td><td>Linear</td><td>คาดคะเนค่านอกช่วงข้อมูล ตรวจว่า x ต้องอยู่นอกช่วงจริง</td></tr>
+    <tr><td class="c">Integration</td><td>Trapezoidal, Simpson's 1/3</td><td>หาพื้นที่ใต้เส้นโค้งจากตารางจุด ตรวจว่า Simpson ต้องมีจำนวนช่วงเป็นเลขคู่ รองรับกรณี a &gt; b</td></tr>
+    <tr><td class="c">Differentiation</td><td>Forward, Backward, Central</td><td>หาอนุพันธ์เชิงตัวเลขจากตารางจุด ตรวจว่าจุดที่เลือกมีเพื่อนบ้านครบตามสูตร</td></tr>
+  </table>
+
+  <h4 class="sub">1.4.2 คุณสมบัติเชิงระบบ</h4>
+  <ul>
+    <li>กรอกสมการ f(x) ได้โดยตรง เช่น <span style="font-family:Consolas,monospace">x^3 - x - 2</span> โปรแกรมแยกวิเคราะห์สมการเองโดยไม่ใช้ eval()</li>
+    <li>กำหนดค่า Tolerance และ Max Iterations ได้ พร้อมค่าเริ่มต้นที่เหมาะสม</li>
+    <li>จัดการข้อผิดพลาดเป็นภาษาไทยที่อธิบายสาเหตุ เช่น หารด้วยศูนย์, เมทริกซ์เอกฐน, ไม่ลู่เข้า</li>
+    <li>บันทึกประวัติการคำนวณลง SQLite นับโจทย์ซ้ำ (หมวด + วิธี + อินพุตเดิม) ลบรายการได้</li>
+    <li>หน้า Dashboard สรุปสถิติ: จำนวนโจทย์, จำนวนครั้งที่คำนวณ, สัดส่วนตามหมวด, โจทย์ยอดนิยม</li>
+    <li>ติดตั้งด้วย Docker Compose พร้อม health check และ named volume สำหรับเก็บฐานข้อมูลถาวร</li>
+  </ul>
+
+  <h4 class="sub">1.4.3 ตารางเวลาการดำเนินโครงการ</h4>
+  <table class="gantt">
+    <tr>
+      <th style="width:34%">กิจกรรม</th><th>สัปดาห์ 1</th><th>สัปดาห์ 2</th><th>สัปดาห์ 3</th><th>สัปดาห์ 4</th><th>สัปดาห์ 5</th><th>สัปดาห์ 6</th>
+    </tr>
+    <tr><td class="task">ศึกษาโจทย์และวิธีเชิงตัวเลขทั้ง 11 วิธี</td><td class="on">✓</td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td class="task">ออกแบบโครงสร้างคลาส (OOP) และ REST API</td><td></td><td class="on">✓</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td class="task">พัฒนาคลาสอัลกอริทึม + Expression Parser</td><td></td><td class="on">✓</td><td class="on">✓</td><td></td><td></td><td></td></tr>
+    <tr><td class="task">พัฒนาฐานข้อมูลและระบบประวัติการคำนวณ</td><td></td><td></td><td class="on">✓</td><td class="on">✓</td><td></td><td></td></tr>
+    <tr><td class="task">พัฒนาส่วนติดต่อผู้ใช้ (React + Tailwind)</td><td></td><td></td><td class="on">✓</td><td class="on">✓</td><td></td><td></td></tr>
+    <tr><td class="task">เขียนชุดทดสอบและตรวจสอบผลลัพธ์</td><td></td><td></td><td></td><td class="on">✓</td><td class="on">✓</td><td></td></tr>
+    <tr><td class="task">จัดทำ Docker / เอกสาร / รายงาน</td><td></td><td></td><td></td><td></td><td class="on">✓</td><td class="on">✓</td></tr>
+  </table>
+</div>
+
+<!-- ================= บทที่ 2: Class Diagram ================= -->
+<div class="page">
+  <div class="chapter">บทที่ 2<br>การพัฒนาโครงงาน</div>
+
+  <h3 class="sec">2.1 แผนภาพคลาส (Class Diagram)</h3>
+  <p class="indent">โครงสร้างคลาสหลักของระบบออกแบบตามหลักการแบ่งชั้น โดยคลาสนามธรรม <b>BaseMethod</b> เป็นแม่ของคลาสวิธีคำนวณทั้ง 11 วิธี และมี <b>registry.js</b> เป็นศูนย์กลางประกอบ (compose) วัตถุทุกวิธีเข้าด้วยกัน</p>
+
+  <div class="diagram">
+    <svg width="620" height="480" viewBox="0 0 620 480" xmlns="http://www.w3.org/2000/svg" font-family="Sarabun, sans-serif">
+      <defs>
+        <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#1a2332"/></marker>
+        <marker id="hollow" markerWidth="14" markerHeight="12" refX="13" refY="6" orient="auto"><path d="M0,6 L13,0 L13,12 Z" fill="#fff" stroke="#1a2332" stroke-width="1.4"/></marker>
+      </defs>
+      <style>
+        .box { fill: #f4f7fa; stroke: #0b5c8f; stroke-width: 1.6; rx: 5; }
+        .abs { fill: #e8f1f8; }
+        .ttl { font-size: 15px; font-weight: 700; fill: #1a2332; }
+        .stereotype { font-size: 11px; fill: #5a6b7c; font-style: italic; }
+        .mem { font-size: 11.5px; fill: #33414f; }
+        .rel { stroke: #1a2332; stroke-width: 1.4; fill: none; }
+      </style>
+
+      <!-- BaseMethod -->
+      <rect class="box abs" x="215" y="18" width="190" height="86"/>
+      <text class="stereotype" x="310" y="36" text-anchor="middle">&laquo;abstract&raquo;</text>
+      <text class="ttl" x="310" y="55" text-anchor="middle">BaseMethod</text>
+      <line x1="225" y1="63" x2="395" y2="63" stroke="#0b5c8f" stroke-width="1"/>
+      <text class="mem" x="225" y="78"># meta</text>
+      <text class="mem" x="225" y="94">+ solve(input) «abstract»</text>
+
+      <!-- subclasses -->
+      <rect class="box" x="18" y="200" width="130" height="66"/>
+      <text class="ttl" x="83" y="224" text-anchor="middle">BisectionMethod</text>
+      <line x1="28" y1="233" x2="138" y2="233" stroke="#0b5c8f" stroke-width="1"/>
+      <text class="mem" x="28" y="250">+ solve()</text>
+
+      <rect class="box" x="164" y="200" width="130" height="66"/>
+      <text class="ttl" x="229" y="224" text-anchor="middle">NewtonRaphson</text>
+      <text class="ttl" x="229" y="240" text-anchor="middle">Method</text>
+
+      <rect class="box" x="310" y="200" width="130" height="66"/>
+      <text class="ttl" x="375" y="224" text-anchor="middle">GaussElimination</text>
+      <text class="ttl" x="375" y="240" text-anchor="middle">Method</text>
+
+      <rect class="box" x="456" y="200" width="146" height="92"/>
+      <text class="ttl" x="529" y="222" text-anchor="middle">DifferenceMethod</text>
+      <line x1="466" y1="231" x2="592" y2="231" stroke="#0b5c8f" stroke-width="1"/>
+      <text class="mem" x="466" y="248">- kind</text>
+      <text class="mem" x="466" y="264">+ solve()</text>
+      <text class="stereotype" x="529" y="284" text-anchor="middle">สร้าง 3 วัตถุ: fwd/bwd/central</text>
+
+      <!-- inheritance arrows -->
+      <line class="rel" x1="83" y1="200" x2="240" y2="104" marker-end="url(#hollow)"/>
+      <line class="rel" x1="229" y1="200" x2="280" y2="104" marker-end="url(#hollow)"/>
+      <line class="rel" x1="375" y1="200" x2="340" y2="104" marker-end="url(#hollow)"/>
+      <line class="rel" x1="529" y1="200" x2="390" y2="104" marker-end="url(#hollow)"/>
+      <text class="stereotype" x="150" y="150">สืบทอด (Inheritance)</text>
+
+      <!-- registry -->
+      <rect class="box" x="215" y="330" width="190" height="80"/>
+      <text class="ttl" x="310" y="352" text-anchor="middle">registry.js</text>
+      <line x1="225" y1="360" x2="395" y2="360" stroke="#0b5c8f" stroke-width="1"/>
+      <text class="mem" x="225" y="376">- methods : Map</text>
+      <text class="mem" x="225" y="392">+ register(m) / getMethod(key)</text>
+      <text class="mem" x="225" y="408">+ listMethods()</text>
+
+      <!-- composition arrows -->
+      <line class="rel" x1="83" y1="266" x2="250" y2="330" marker-end="url(#arrow)"/>
+      <line class="rel" x1="229" y1="266" x2="290" y2="330" marker-end="url(#arrow)"/>
+      <line class="rel" x1="375" y1="266" x2="340" y2="330" marker-end="url(#arrow)"/>
+      <line class="rel" x1="529" y1="292" x2="380" y2="352" marker-end="url(#arrow)"/>
+      <text class="stereotype" x="430" y="325">ประกอบวัตถุ (Composition)</text>
+
+      <!-- routes -->
+      <rect class="box" x="215" y="440" width="190" height="34"/>
+      <text class="ttl" x="310" y="462" text-anchor="middle">routes (REST API)</text>
+      <line class="rel" x1="310" y1="440" x2="310" y2="414" marker-end="url(#arrow)"/>
+    </svg>
+  </div>
+  <figcaption style="text-align:center"><b>รูปที่ 2.1</b> แผนภาพคลาสของระบบ FastNumeric (ส่วนอัลกอริทึม)</figcaption>
+
+  <h3 class="sec">2.2 คลาสหลักของระบบ</h3>
+  <table class="data">
+    <tr><th style="width:26%">คลาส / ไฟล์</th><th>หน้าที่</th></tr>
+    <tr><td><b>BaseMethod</b></td><td>คลาสนามธรรมของทุกวิธีคำนวณ เก็บข้อมูล meta (key, หมวด, ชื่อ, นิยามฟิลด์อินพุต) และประกาศเมธอดนามธรรม solve() ให้คลาสลูกไป implement</td></tr>
+    <tr><td><b>roots.js / linear.js / interpolation.js / extrapolation.js / integration.js / differentiation.js</b></td><td>คลาสวิธีคำนวณจริง 11 วิธี สืบทอดจาก BaseMethod แต่ละคลาสรับผิดชอบเฉพาะคณิตศาสตร์ของตัวเอง</td></tr>
+    <tr><td><b>registry.js</b></td><td>ศูนย์กลางลงทะเบียนวัตถุวิธีคำนวณทั้งหมดใน Map พร้อมเมธอด listMethods() สำหรับสร้าง UI อัตโนมัติ</td></tr>
+    <tr><td><b>expression/parser.js</b></td><td>แปลงสมการ f(x) จากสตริงเป็นฟังก์ชันด้วย Tokenizer + Recursive Descent Parser (ไม่ใช้ eval)</td></tr>
+    <tr><td><b>validation/index.js</b></td><td>ด่านตรวจอินพุตกลาง (asFloat, asInt, asPoints, asMatrix, asExpression) โยน ValidationError พร้อมข้อความไทย</td></tr>
+    <tr><td><b>database/db.js + history.js</b></td><td>ชั้นเข้าถึงข้อมูล: ตาราง problem + calculation ใน SQLite นับโจทย์ซ้ำด้วย input hash</td></tr>
+    <tr><td><b>routes/index.js</b></td><td>REST API: /methods, /calculate, /history, /history/:id, /stats</td></tr>
+    <tr><td><b>client (React)</b></td><td>MethodInput สร้างฟอร์มอัตโนมัติจาก meta.fields, ResultView แสดงคำตอบ/ขั้นตอน/ตาราง</td></tr>
+  </table>
+</div>
+
+<!-- ================= บทที่ 2: เทคโนโลยี + OOP ================= -->
+<div class="page">
+  <h3 class="sec">2.3 รูปแบบการพัฒนาและเทคโนโลยีที่ใช้</h3>
+  <table class="data">
+    <tr><th style="width:32%">ส่วนของระบบ</th><th>เทคโนโลยี</th></tr>
+    <tr><td>Frontend</td><td>React 19 + Vite + Tailwind CSS (JavaScript)</td></tr>
+    <tr><td>Backend</td><td>Node.js + Express (REST API)</td></tr>
+    <tr><td>ฐานข้อมูล</td><td>SQLite ผ่าน node:sqlite (DatabaseSync ในตัว Node.js)</td></tr>
+    <tr><td>การติดตั้ง</td><td>Docker + Docker Compose (multi-stage build, Nginx, health check, named volume)</td></tr>
+  </table>
+  <p class="indent">ระบบแบ่งการทำงานเป็น 3 ชั้นที่แยกกันชัดเจน: <b>ชั้นรับข้อมูล</b> (ฟอร์ม React สร้างจาก meta ของแต่ละวิธี), <b>ชั้นอัลกอริทึม</b> (คลาสวิธีคำนวณสืบทอด BaseMethod) และ <b>ชั้นแสดงผล/จัดเก็บ</b> (ResultView แสดงผลจากโครงสร้างผลลัพธ์มาตรฐาน, history.js บันทึกลง SQLite) ทำให้เปลี่ยนส่วนใดส่วนหนึ่งโดยไม่กระทบส่วนอื่น</p>
+
+  <h3 class="sec">2.4 แนวคิดการเขียนโปรแกรมเชิงวัตถุ (OOP)</h3>
+
+  <h4 class="sub">2.4.1 Constructor</h4>
+  <p class="indent">คลาสวิธีคำนวณทุกคลาสกำหนดข้อมูลเฉพาะของตัวเองไว้ใน constructor แล้วส่งต่อให้คลาสแม่ผ่าน super() ตัวอย่างคลาส BisectionMethod กำหนดว่าอินพุตของวิธีมีอะไรบ้าง (สมการ, ช่วง XL–XU, Tolerance, Max Iterations):</p>
+  <div class="code"><span class="kw">class</span> <span class="fn">BisectionMethod</span> <span class="kw">extends</span> <span class="fn">BaseMethod</span> {
+  <span class="fn">constructor</span>() {
+    <span class="kw">super</span>({
+      key: <span class="st">'bisection'</span>, category: <span class="st">'root'</span>,
+      name: <span class="st">'Bisection Method'</span>, nameTh: <span class="st">'วิธีแบ่งครึ่งช่วง'</span>,
+      fields: [
+        { name: <span class="st">'fx'</span>, label: <span class="st">'f(x) = 0'</span>, type: <span class="st">'expression'</span> },
+        { name: <span class="st">'xl'</span>, label: <span class="st">'XL (ปลายซ้าย)'</span>, type: <span class="st">'number'</span> },
+        { name: <span class="st">'xu'</span>, label: <span class="st">'XU (ปลายขวา)'</span>, type: <span class="st">'number'</span> },
+        { name: <span class="st">'tol'</span>, label: <span class="st">'Tolerance'</span>, type: <span class="st">'number'</span>, default: 1e-6 },
+        { name: <span class="st">'maxIter'</span>, label: <span class="st">'Max Iterations'</span>, type: <span class="st">'int'</span>, default: 100 },
+      ],
+    });
+  }
+}</div>
+  <p class="indent">ข้อมูล fields นี้ถูกส่งต่อไปถึง Frontend ผ่าน API <span style="font-family:Consolas,monospace">GET /api/methods</span> เพื่อสร้างฟอร์มกรอกข้อมูลของแต่ละวิธีโดยอัตโนมัติ — เพิ่มวิธีใหม่ก็ได้ฟอร์มใหม่ทันทีโดยไม่ต้องแก้ Frontend</p>
+
+  <h4 class="sub">2.4.2 Encapsulation (การซ่อนรายละเอียด)</h4>
+  <p class="indent">registry.js ซ่อนโครงสร้างเก็บวัตถุ (Map) ไว้ภายใน ภายนอกเรียกผ่านฟังก์ชัน register / getMethod / listMethods เท่านั้น และป้องกัน key ซ้ำตั้งแต่ตอนลงทะเบียน:</p>
+  <div class="code"><span class="cm">// registry.js — ซ่อน Map ไว้ข้างใน ภายนอกเข้าถึงผ่านฟังก์ชันเท่านั้น</span>
+<span class="kw">const</span> methods = <span class="kw">new</span> <span class="fn">Map</span>();
+
+<span class="kw">function</span> <span class="fn">register</span>(method) {
+  <span class="kw">if</span> (methods.has(method.meta.key)) {
+    <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="st">`method key ซ้ำ: ${method.meta.key}`</span>);
+  }
+  methods.set(method.meta.key, method);
+}
+
+<span class="kw">function</span> <span class="fn">getMethod</span>(key) {
+  <span class="kw">return</span> methods.get(key) || <span class="kw">null</span>;
+}</div>
+  <p class="indent">นอกจากนี้ชั้น validation ยังทำหน้าที่เป็น "ด่านเดียว" ในการตรวจอินพุตทุกชนิด (จุดทศนิยะ, จำนวนเต็ม, ตารางจุด, เมทริกซ์, สมการ) โค้ดคำนวณจึงไม่ต้องตรวจข้อมูลเองซ้ำ ๆ อีก และ BaseMethod ซ่อนเงื่อนไขบังคับของ meta (ต้องมี key, category, name) ไว้ในตัว:</p>
+  <div class="code"><span class="kw">class</span> <span class="fn">BaseMethod</span> {
+  <span class="fn">constructor</span>(meta) {
+    <span class="kw">if</span> (!meta || !meta.key || !meta.category || !meta.name) {
+      <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="st">'method meta ต้องมี key, category และ name'</span>);
+    }
+    <span class="kw">this</span>.meta = meta;
+  }
+}</div>
+</div>
+
+<!-- ================= บทที่ 2: OOP ต่อ ================= -->
+<div class="page">
+  <h4 class="sub">2.4.3 Composition (การประกอบวัตถุ)</h4>
+  <p class="indent">registry.js ประกอบวัตถุวิธีคำนวณทั้ง 11 วัตถุเข้าเป็นระบบเดียว สังเกตว่าวิธีอนุพันธ์ทั้งสามตัว (Forward / Backward / Central) มาจากคลาสเดียวกันคือ DifferenceMethod แต่ถูกสร้างเป็น 3 วัตถุด้วยค่า kind ต่างกัน:</p>
+  <div class="code">[
+  <span class="kw">new</span> <span class="fn">BisectionMethod</span>(),
+  <span class="kw">new</span> <span class="fn">NewtonRaphsonMethod</span>(),
+  <span class="kw">new</span> <span class="fn">GaussEliminationMethod</span>(),
+  <span class="kw">new</span> <span class="fn">LinearInterpolationMethod</span>(),
+  <span class="kw">new</span> <span class="fn">LagrangeInterpolationMethod</span>(),
+  <span class="kw">new</span> <span class="fn">LinearExtrapolationMethod</span>(),
+  <span class="kw">new</span> <span class="fn">TrapezoidalRuleMethod</span>(),
+  <span class="kw">new</span> <span class="fn">SimpsonsOneThirdRuleMethod</span>(),
+  <span class="kw">new</span> <span class="fn">DifferenceMethod</span>(<span class="st">'forward'</span>),
+  <span class="kw">new</span> <span class="fn">DifferenceMethod</span>(<span class="st">'backward'</span>),
+  <span class="kw">new</span> <span class="fn">DifferenceMethod</span>(<span class="st">'central'</span>),
+].forEach(<span class="fn">register</span>);</div>
+  <p class="indent">แต่ละคลาสวิธีคำนวณยัง "ประกอบ" วัตถุอื่นเข้ามาใช้ เช่น ทุกคลาสประกอบวัตถุฟังก์ชัน f(x) ที่ได้จาก expression parser มาใช้คำนวณโดยไม่สนใจว่า parser เขียนอย่างไรภายใน</p>
+
+  <h4 class="sub">2.4.4 Polymorphism (พฤติกรรมหลากหลายรูปแบบ)</h4>
+  <p class="indent">REST API ปลายทางเดียว <span style="font-family:Consolas,monospace">POST /api/calculate</span> ใช้คำนวณได้ทั้ง 11 วิธี — โค้ดเรียก <span style="font-family:Consolas,monospace">method.solve(input)</span> เพียงบรรทัดเดียว แต่พฤติกรรมจริงขึ้นอยู่กับว่า method เป็นวัตถุของคลาสใด (Bisection ก็แบ่งครึ่งช่วง, Gauss ก็ตัดตัวแปร):</p>
+  <div class="code"><span class="cm">// routes/index.js — โค้ดชุดเดียว ใช้กับวิธีใดก็ได้ (Polymorphism)</span>
+<span class="kw">const</span> method = <span class="fn">getMethod</span>(methodKey);
+<span class="kw">if</span> (!method) {
+  <span class="kw">return</span> res.status(400).json({ error: <span class="st">`ไม่พบวิธีคำนวณ '${methodKey}'`</span> });
+}
+<span class="kw">const</span> parsed = {};   <span class="cm">// ... ตรวจอินพุตตาม field.type ของวิธีนั้น ...</span>
+<span class="kw">const</span> result = method.<span class="fn">solve</span>(parsed);   <span class="cm">// ← คลาสไหนก็เรียกเหมือนกัน</span></div>
+
+  <h4 class="sub">2.4.5 Abstraction และ Inheritance</h4>
+  <p class="indent">BaseMethod เป็นคลาสนามธรรม: ประกาศเมธอด <span style="font-family:Consolas,monospace">solve()</span> ไว้ให้คลาสลูกสืบทอดและเขียนทับ (override) ตามสูตรของตัวเอง ใครลืม implement โปรแกรมจะโยน error ทันที:</p>
+  <div class="code"><span class="cm">// BaseMethod.js — เมธอดนามธรรม</span>
+<span class="cm">/** @abstract */</span>
+<span class="fn">solve</span>(_input) {
+  <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="st">`วิธี '${this.meta.key}' ยังไม่ได้ implement เมธอด solve()`</span>);
+}
+
+<span class="cm">// roots.js — คลาสลูกเขียนทับด้วยอัลกอริทึมของตัวเอง</span>
+<span class="kw">class</span> <span class="fn">NewtonRaphsonMethod</span> <span class="kw">extends</span> <span class="fn">BaseMethod</span> {
+  <span class="fn">solve</span>({ fx, x0, tol, maxIter }) {
+    <span class="cm">// xᵢ₊₁ = xᵢ − f(xᵢ) / f'(xᵢ) ...</span>
+  }
+}</div>
+  <p class="indent">คลาสลูกทุกตัวได้คุณสมบัติร่วมจากคลาสแม่โดยอัตโนมัติ: โครงสร้าง meta แบบเดียวกัน, การถูกเก็บใน registry, และรูปแบบผลลัพธ์มาตรฐาน { answer, steps, table, meta } ที่ ResultView นำไปแสดงผลได้ทุกวิธีโดยไม่ต้องมีเงื่อนไขแยกวิธี</p>
+</div>
+
+<!-- ================= บทที่ 2: อัลกอริทึมสำคัญ ================= -->
+<div class="page">
+  <h3 class="sec">2.5 อัลกอริทึมที่สำคัญ</h3>
+
+  <h4 class="sub">2.5.1 Expression Parser (ไม่ใช้ eval)</h4>
+  <p class="indent">เพื่อความปลอดภัย โปรแกรมแยกวิเคราะห์สมการ f(x) จากสตริงด้วย Tokenizer + Recursive Descent Parser ที่เขียนขึ้นเอง รองรับตัวดำเนินการ + − * / ^ วงเล็บ ฟังก์ชัน sin cos tan sqrt exp ln log abs ค่าคงที่ pi, e และการคูณละเครื่องหมาย (2x, 3(x+1)):</p>
+  <div class="code"><span class="kw">function</span> <span class="fn">tokenize</span>(src) {
+  <span class="kw">const</span> tokens = [];
+  <span class="kw">let</span> i = 0;
+  <span class="kw">while</span> (i &lt; src.length) {
+    <span class="kw">const</span> ch = src[i];
+    <span class="kw">if</span> (/[0-9.]/.test(ch)) {          <span class="cm">// ตัวเลข (รวมเลขยกกำลัง 1e-6)</span>
+      <span class="kw">const</span> m = <span class="st">/^(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?/</span>.exec(src.slice(i));
+      tokens.push({ type: <span class="st">'num'</span>, value: <span class="fn">parseFloat</span>(m[0]) });
+      i += m[0].length;
+    } <span class="kw">else if</span> (/[a-zA-Z_]/.test(ch)) { <span class="cm">// ตัวแปร / ฟังก์ชัน / ค่าคงที่</span>
+      ...
+    } <span class="kw">else if</span> (<span class="st">'+-*/^(),'</span>.includes(ch)) {
+      tokens.push({ type: ch });
+      i++;
+    } <span class="kw">else</span> {
+      <span class="kw">throw new</span> <span class="fn">ExprError</span>(<span class="st">`ไม่รู้จักอักขระ '${ch}' ที่ตำแหน่งที่ ${i+1}`</span>);
+    }
+  }
+  <span class="kw">return</span> tokens;
+}</div>
+
+  <h4 class="sub">2.5.2 Bisection Method — การทำซ้ำแบบแบ่งครึ่งช่วง</h4>
+  <div class="code"><span class="fn">solve</span>({ fx, xl, xu, tol, maxIter }) {
+  <span class="kw">if</span> (xl &gt;= xu) <span class="kw">throw</span> ...;
+  <span class="kw">const</span> fxl = <span class="fn">evalAt</span>(fx, xl, <span class="st">'f(XL)'</span>);
+  <span class="kw">const</span> fxu = <span class="fn">evalAt</span>(fx, xu, <span class="st">'f(XU)'</span>);
+  <span class="kw">if</span> (fxl * fxu &gt; 0) {
+    <span class="kw">throw</span> ...;   <span class="cm">// f(XL), f(XU) เครื่องหมายเดียวกัน → ใช้ Bisection ไม่ได้</span>
+  }
+  <span class="kw">let</span> a = xl, b = xu, prev = <span class="kw">null</span>, root;
+  <span class="kw">for</span> (<span class="kw">let</span> iter = 0; iter &lt; maxIter; iter++) {
+    root = (a + b) / 2;                          <span class="cm">// จุดกึ่งกลาง</span>
+    <span class="kw">const</span> froot = <span class="fn">evalAt</span>(fx, root, <span class="st">'f(x)'</span>);
+    <span class="kw">if</span> (fa * froot &lt; 0) b = root; <span class="kw">else</span> a = root; <span class="cm">// เลือกครึ่งที่มีราก</span>
+    <span class="kw">if</span> (prev !== <span class="kw">null</span> &amp;&amp; Math.abs((root - prev) / root) * 100 &lt; tol) <span class="kw">break</span>;
+    prev = root;
+  }
+}</div>
+  <p class="indent">ทุกรอบการทำซ้ำถูกเก็บลงตาราง (XL, XU, XR, f(XL), f(XR), Error %) เพื่อแสดงให้ผู้ใช้เห็นการลู่เข้าของคำตอบทีละรอบ</p>
+
+  <h4 class="sub">2.5.3 Gauss Elimination — การตัดตัวแปรแบบ Partial Pivoting</h4>
+  <div class="code"><span class="kw">for</span> (<span class="kw">let</span> col = 0; col &lt; n - 1; col++) {
+  <span class="cm">// เลือกแถวที่มีค่าสัมบูรณ์มากที่สุดในคอลัมน์นี้เป็น pivot (ลดปัญหาตัวเลข)</span>
+  <span class="kw">let</span> maxRow = col;
+  <span class="kw">for</span> (<span class="kw">let</span> r = col + 1; r &lt; n; r++) {
+    <span class="kw">if</span> (Math.abs(A[r][col]) &gt; Math.abs(A[maxRow][col])) maxRow = r;
+  }
+  [A[col], A[maxRow]] = [A[maxRow], A[col]];
+  [b[col], b[maxRow]] = [b[maxRow], b[col]];
+
+  <span class="kw">if</span> (Math.abs(A[col][col]) &lt; 1e-12) {
+    <span class="kw">throw</span> ...;   <span class="cm">// เมทริกซ์เอกฐน (singular) — แก้ระบบไม่ได้</span>
+  }
+  <span class="kw">for</span> (<span class="kw">let</span> r = col + 1; r &lt; n; r++) {  <span class="cm">// ตัดตัวแปรแถวล่าง</span>
+    <span class="kw">const</span> m = A[r][col] / A[col][col];
+    <span class="kw">for</span> (<span class="kw">let</span> c = col; c &lt; n; c++) A[r][c] -= m * A[col][c];
+    b[r] -= m * b[col];
+  }
+}
+<span class="cm">// แทนค่าย้อนกลับ (Back Substitution)</span></div>
+
+  <h4 class="sub">2.5.4 Newton-Raphson — อนุพันธ์เชิงตัวเลข</h4>
+  <div class="code"><span class="cm">// หาอนุพันธ์ด้วย central difference ความแม่นยำสูง</span>
+<span class="kw">const</span> df = (x) =&gt; {
+  <span class="kw">const</span> h = Math.max(1e-9, Math.abs(x) * 1e-8);  <span class="cm">// h แปรผันตามขนาด x</span>
+  <span class="kw">return</span> (<span class="fn">evalAt</span>(fx, x + h, ...) - <span class="fn">evalAt</span>(fx, x - h, ...)) / (2 * h);
+};
+<span class="cm">// ทำซ้ำ: x ใหม่ = x − f(x) / f'(x)  ถ้า f'(x) = 0 → แจ้งเตือนหารด้วยศูนย์</span></div>
+</div>
+
+<!-- ================= บทที่ 3 ================= -->
+<div class="page">
+  <div class="chapter">บทที่ 3<br>สรุปผลการพัฒนาโครงงาน</div>
+
+  <h3 class="sec">3.1 ปัญหาที่พบระหว่างการพัฒนา</h3>
+  <table class="data">
+    <tr><th style="width:30%">ปัญหา</th><th>แนวทางแก้ไข</th></tr>
+    <tr><td>การใช้ eval() กับสมการ f(x) เสี่ยงต่อความปลอดภัยและข้อความ error อ่านไม่เข้าใจ</td><td>เขียน Expression Parser เอง (Tokenizer + Recursive Descent) แปลง error เป็นข้อความไทยระบุตำแหน่งอักขระที่ผิด เช่น "ไม่รู้จักอักขระ '@' ที่ตำแหน่งที่ 3"</td></tr>
+    <tr><td>การกรอกเมทริกซ์ฝั่งผู้ใช้ส่งชื่อ key ไม่ตรงกับฝั่งเซิร์ฟเวอร์ (A พิมพ์ใหญ่/เล็ก) ทำให้ได้ข้อความ "รูปแบบข้อมูลเมทริกซ์ไม่ถูกต้อง"</td><td>ปรับ asMatrix ให้รับทั้ง key "a" และ "A" พร้อมเขียนชุดทดสอบ API ครอบคลุมกรณีนี้</td></tr>
+    <tr><td>หน้าเว็บขึ้น "Cannot read properties of null (reading 'categories')" เมื่อ API ยังไม่ตอบ</td><td>ตั้ง Vite dev proxy ให้ /api ไปยังเซิร์ฟเวอร์ Express และเพิ่มการตรวจสอบ response ก่อน setState (Array.isArray(d.categories))</td></tr>
+    <tr><td>วิธี Simpson ต้องการจำนวนช่วงเป็นเลขคู่ แต่ผู้ใช้กรอกเลขคี่ได้</td><td>ตรวจที่ด่าน validation แล้วแจ้งข้อความไทยพร้อมคำแนะนำให้กรอกใหม่</td></tr>
+    <tr><td>Newton-Raphson ไม่ลู่เข้าเมื่อ f'(x) = 0 หรือเริ่มที่จุดที่ไม่เหมาะสม</td><td>ไม่แอบอ้างว่าคำตอบถูก — แสดงค่าประมาณพร้อมแถบเตือนสีเหลืองอธิบายสาเหตุและแนะนำให้เปลี่ยน X0</td></tr>
+    <tr><td>โจทย์เดิมถูกบันทึกซ้ำ ๆ ทำให้ตารางประวัติรก</td><td>ใช้ SHA-256 hash ของ (หมวด + วิธี + อินพุตที่เรียง key แล้ว) เป็น UNIQUE constraint โจทย์เดิมจะเพิ่มแค่ "จำนวนครั้งที่คำนวณ"</td></tr>
+  </table>
+
+  <h3 class="sec">3.2 จุดเด่นของโปรแกรม</h3>
+
+  <h4 class="sub">3.2.1 หน้า Dashboard สรุปสถิติแบบเรียลไทม์</h4>
+  <p class="indent">แสดงจำนวนโจทย์ทั้งหมด จำนวนครั้งที่คำนวณ สัดส่วนตามหมวด และโจทย์ยอดนิยม ข้อมูลทั้งหมดอ่านจาก SQLite จริงที่ผู้ใช้คำนวณเอง</p>
+  <figure>
+    <img src="{{img:dashboard.png}}" alt="Dashboard" class="narrow">
+    <figcaption><b>รูปที่ 3.1</b> หน้า Dashboard — สถิติการใช้งานและโจทย์ยอดนิยม</figcaption>
+  </figure>
+
+  <h4 class="sub">3.2.2 เลือกวิธีคำนวณได้ 6 หมวด 11 วิธี</h4>
+  <p class="indent">หน้า Calculator จัดกลุ่มวิธีคำนวณตามหมวด รายการวิธีทั้งหมดอ่านจาก API โดยตรง (ไม่มีรายการแข็งในโค้ด) เพิ่มวิธีใหม่ที่ฝั่งเซิร์ฟเวอร์แล้วหน้าเว็บแสดงเพิ่มทันที</p>
+  <figure>
+    <img src="{{img:calculator-select.png}}" alt="Calculator" class="narrow">
+    <figcaption><b>รูปที่ 3.2</b> หน้าเลือกวิธีคำนวณ — 6 หมวด 11 วิธี</figcaption>
+  </figure>
+</div>
+
+<div class="page">
+  <h4 class="sub">3.2.3 แสดงขั้นตอนและตารางการทำซ้ำครบทุกวิธี</h4>
+  <p class="indent">ผลลัพธ์แต่ละครั้งแสดง "คำตอบ", "ตารางการทำซ้ำ" และ "วิธีทำ" แบบทีละขั้น ผู้ใช้ตรวจการคำนวณย้อนกลับได้ เช่น แก้ระบบสมการด้วย Gauss Elimination จะเห็น Augmented Matrix ตั้งต้น การสลับแถวแบบ Partial Pivoting และการตัดตัวแปรทีละขั้น</p>
+  <figure>
+    <img src="{{img:result-gauss.png}}" alt="Gauss result" class="narrow">
+    <figcaption><b>รูปที่ 3.3</b> ผลลัพธ์ Gauss Elimination — คำตอบ x1=2, x2=3, x3=−1 พร้อมวิธีทำ</figcaption>
+  </figure>
+  <p class="indent">กรณีหารากสมการด้วย Bisection จะได้ตารางการทำซ้ำครบทุกรอบพร้อมค่า error ที่ลดลงเรื่อย ๆ จนบรรลุ Tolerance:</p>
+  <figure>
+    <img src="{{img:result-bisection-table.png}}" alt="Bisection table" class="narrow">
+    <figcaption><b>รูปที่ 3.4</b> ตารางการทำซ้ำ Bisection 26 รอบ ลู่เข้าหาราก ≈ 1.521380</figcaption>
+  </figure>
+</div>
+
+<div class="page">
+  <h4 class="sub">3.2.4 ระบบประวัติการคำนวณพร้อมนับโจทย์ซ้ำ</h4>
+  <p class="indent">ทุกการคำนวณถูกบันทึกลง SQLite โจทย์ที่คำนวณซ้ำ (หมวด + วิธี + อินพุตเดิม) จะไม่ถูกบันทึกซ้ำแต่เพิ่ม "จำนวนครั้งที่คำนวณ" ให้อัตโนมัติ สามารถเปิดดูรายละเอียดและลบรายการได้</p>
+  <figure>
+    <img src="{{img:history-detail.png}}" alt="History detail" class="narrow">
+    <figcaption><b>รูปที่ 3.5</b> รายละเอียดโจทย์ — แสดงจำนวนครั้งที่คำนวณและผลลัพธ์ล่าสุด</figcaption>
+  </figure>
+
+  <h3 class="sec">3.3 การทดสอบระบบ</h3>
+  <p class="indent">ระบบผ่านการทดสอบดังนี้: ชุดทดสอบหน่วย (unit test) ของอัลกอริทึมทั้ง 37 กรณี ผ่านทั้งหมด; ทดสอบ API ทั้ง 11 วิธีด้วยโจทย์ที่รู้คำตอบจริง (เช่น Bisection/Newton ของ x³−x−2 ได้ราก ≈ 1.521380, Gauss ระบบ 3×3 ได้ x = (2, 3, −1), Simpson ของ x² บน [0,1] ได้ 1/3 แม่นสุดทศนิยม) ผ่านทั้งหมด; ทดสอบกรณี error 14 กรณี (หารด้วยศูนย์, เมทริกซ์เอกฐน, เครื่องหมายช่วงผิด, x ซ้ำ, จำนวนช่วงเลขคี่ ฯลฯ) ระบบแจ้งข้อความไทยถูกต้องทุกกรณี; และทดสอบการนับโจทย์ซ้ำ การคงอยู่ของข้อมูลหลังรีสตาร์ทเซิร์ฟเวอร์ ผ่านครบ</p>
+
+  <h3 class="sec">3.4 คำแนะนำในการพัฒนาต่อ</h3>
+  <ol>
+    <li>เพิ่มการวาดกราฟ f(x) พร้อมประมาณการตำแหน่งราก เพื่อช่วยเลือกช่วง XL–XU ที่เหมาะสม</li>
+    <li>เพิ่มวิธีคำนวณขั้นสูง เช่น Secant Method, Gauss-Jordan, Newton's Divided Difference Interpolation ซึ่งทำได้ง่ายจากโครงสร้างคลาสเดิม (สร้างคลาสใหม่ extends BaseMethod แล้ว register)</li>
+    <li>เพิ่มการล็อกอินผู้ใช้ เพื่อแยกประวัติการคำนวณของแต่ละคน</li>
+    <li>ส่งออกผลลัพธ์เป็น PDF หรือรูปภาพ เพื่อแนบในรายงานของผู้ใช้ได้โดยตรง</li>
+  </ol>
+</div>
+
+</body>
+</html>

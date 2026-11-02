@@ -1,0 +1,17 @@
+node_modules
+**/node_modules
+dist
+**/dist
+.git
+.gitignore
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+server/data
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Thumbs.db
+README.md
