@@ -5,7 +5,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://fastnumeric-api.onrender.com/api/$1"
+      "destination": "https://oopnumeric.onrender.com/api/$1"
     },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
