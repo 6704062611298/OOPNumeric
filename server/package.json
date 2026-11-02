@@ -4,6 +4,9 @@
   "private": true,
   "description": "FastNumeric - Numerical Method Calculator API (Express + SQLite)",
   "main": "src/index.js",
+  "engines": {
+    "node": ">=22.5.0 <23"
+  },
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
