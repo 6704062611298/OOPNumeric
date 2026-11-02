@@ -15,9 +15,10 @@ async function request(path, options = {}) {
       headers: { 'Content-Type': 'application/json' },
       ...options,
     });
-  } catch {
+  } catch (err) {
+    // แสดงสาเหตุจริงจาก browser ด้วย เพื่อวินิจฉัยได้ (เช่น Failed to fetch, DNS, CORS)
     throw new Error(
-      'เชื่อมต่อกับเซิร์ฟเวอร์ไม่ได้ — กรุณาตรวจสอบว่า Backend กำลังทำงานอยู่ (npm start ที่โฟลเดอร์ server)'
+      `เชื่อมต่อกับเซิร์ฟเวอร์ไม่ได้ (${BASE}${path}): ${err && err.message ? err.message : 'unknown error'}`
     );
   }
 
